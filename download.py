@@ -3,6 +3,7 @@ import os
 import cgi
 import errno
 from tqdm import tqdm
+import re
 
 
 class DownloadProgressBar(tqdm):
@@ -21,7 +22,23 @@ def create_folder_structure(dirname, rootdir):
         if e.errno != errno.EEXIST:
             print(f'Could not create {dirname} in {rootdir}.')
             raise
-
+def url_verify(url: str):
+    '''
+    funktion checkt ob der bereitgestellt string eine url ist (nicht ob diese tatsächlich online ist!
+    :param url: input url
+    :return: bool if valid -> True
+    '''
+    regex = re.compile(
+        r'^(?:http|ftp)s?://'  # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+        r'(?::\d+)?'  # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE )
+    if re.match(regex, url) is not None:
+        return True
+    else:
+        return False
 
 def download_update(url: str, output_path: str):
     '''
@@ -69,4 +86,5 @@ if __name__ == '__main__':
     url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
     create_folder_structure('Updates', os.getcwd())
     download_path = 'Updates'
-    download_update(url, download_path)
+    if url_verify(url):
+        download_update(url, download_path)
