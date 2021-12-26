@@ -35,12 +35,12 @@ def read_config(file_path):
 config = read_config( 'config.yaml' )
 # create folders.
 for folder in list(config['paths'].values()):
-    create_folder_structure(folder)
+    create_folder_structure(os.path.join(os.getcwd(), folder))
 # show menu
 menu_valid = True
 while menu_valid:
     menu_value = menu.show_menu()
-    if menu_value[1] == 0:
+    if menu_value[1] == 0: # Starte Compass Update von Menü Auswahl
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
     elif menu_value[1] == 1: # Download Update von bereitgestellter URL
         input_valid = True
@@ -53,6 +53,8 @@ while menu_valid:
                 break
             else:
                 print(f'Keine korrekte Eingabe.')
-    elif menu_value[1] == 2:
+    elif menu_value[1] == 2: # Starte Lizenstecker Update von Menü Auswahl
+        run_update.compass_upd(config['paths']['CompassLicenseUpdatePath'])
+    elif menu_value[1] == 3: # Beende Programm
         exit()
 

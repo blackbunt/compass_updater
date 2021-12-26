@@ -40,10 +40,14 @@ def url_verify(url: str):
     else:
         return False
 
-def download_update(url: str, output_path: str):
+def download_update(url: str, output_path_compass: str, output_path_license: str):
     '''
+    Downloads Update File from given URL and decides depending of the received filename in which folder the File is saved:
+    regular Compass Update Files goes into the output_path_compass folder
+    usb license update files goes into the output_path_license folder
     :param url: download url (str)
-    :param output_path: output path für download datei
+    :param output_path_compass: output path für download compass upd datei
+    :param output_path_license: output path für download lizenstecker upd datei
     :return: NIX!
     '''
     try:
@@ -51,9 +55,19 @@ def download_update(url: str, output_path: str):
         urlcontent = response.info()['Content-Disposition']
         value, params = cgi.parse_header(urlcontent)
         filename = params["filename"]
+        filename_formatted = filename.split(".")[-2].replace("_", ".")  # filename gecleaned für lesbarkeit des users
+        # check um was es sich handelt (comp update oder liz update)
+        if filename.startswith('USB') & filename.endswith('.exe'):
+            print(f'Lizenzstecker Update {filename_formatted} gefunden.')
+            output_path = output_path_license
+        elif filename[0].isdigit() & filename.endswith('.exe'):
+            print(f'Compass Update {filename_formatted} gefunden.')
+            output_path = output_path_compass
+        else:
+            print('Konnte Update Datei nicht zuordnen.')
+            return
 
 
-        filename_formatted = filename.split(".")[-2].replace("_", ".") # filename gecleaned für lesbarkeit des users
         output_file = os.path.isfile( os.path.join( output_path, filename ) ) # checkt ob datei schon heruntergeladen wurde oder das noch getan werden muss
         input_valid = True
         if output_file:
@@ -83,8 +97,12 @@ def download_update(url: str, output_path: str):
         print(f'Verbindung wurde unterbrochen.')
 
 if __name__ == '__main__':
-    url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
+    url = 'https://filestation.compass-software.de/FileManagement/LicenceDownload?LicenceFileName=USB20033177C_211103_1041.exe'
+    #url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
     create_folder_structure('Updates', os.getcwd())
-    download_path = 'Updates'
+    create_folder_structure('Compass', os.path.join(os.getcwd(), 'Updates'))
+    create_folder_structure('Lizenzstecker', os.path.join(os.getcwd(), 'Updates'))
+    download_path_compass = os.path.join(os.getcwd(), 'Updates/Compass/')
+    download_path_license = os.path.join(os.getcwd(), 'Updates/Lizenzstecker/')
     if url_verify(url):
-        download_update(url, download_path)
+        download_update(url, download_path_compass, download_path_license)
