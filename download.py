@@ -97,7 +97,9 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
         print(f'Verbindung wurde unterbrochen.')
 
 if __name__ == '__main__':
+    # Lizenstecker Update
     url = 'https://filestation.compass-software.de/FileManagement/LicenceDownload?LicenceFileName=USB20033177C_211103_1041.exe'
+    # reguläres Update
     #url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
     create_folder_structure('Updates', os.getcwd())
     create_folder_structure('Compass', os.path.join(os.getcwd(), 'Updates'))

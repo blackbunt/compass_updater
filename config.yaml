@@ -1,4 +1,4 @@
 # Config File for Compass Update Utility
 paths:
-  CompassUpdatePath: C:\Users\bernie\PycharmProjects\compass_updater/Updates/Compass/
-  CompassLicenseUpdatePath: C:\Users\bernie\PycharmProjects\compass_updater/Updates/Lizenstecker/
+  CompassUpdatePath: /Users/bernie/PycharmProjects/compass_updater/Updates/Compass/
+  CompassLicenseUpdatePath: /Users/bernie/PycharmProjects/compass_updater/Updates/Lizenzstecker/
