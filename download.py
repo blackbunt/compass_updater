@@ -70,16 +70,16 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
 
         output_file = os.path.isfile( os.path.join( output_path, filename ) ) # checkt ob datei schon heruntergeladen wurde oder das noch getan werden muss
         input_valid = True
-        if output_file:
-            print( 'Datei exestiert schon!' )
-        while input_valid:
-            # wenn datei exestiert
-            if output_file == True:
 
+        while input_valid:
+            download_path = os.path.join(output_path, filename) # path where update file is stored
+            # wenn datei exestiert
+            if output_file:
+                print('Datei exestiert schon!\n')
                 input_raw = input('Erneut herunterladen? j/n ')
                 if input_raw == 'j':
                     bar = DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
-                    urllib.request.urlretrieve(url, filename=output_file, reporthook=bar.update_to)
+                    urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                     break
                 if input_raw == 'n':
                     print('Abbruch.')
@@ -89,7 +89,7 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
                     pass
             else: # wenn datei noch nicht exestiert
                 bar = DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
-                urllib.request.urlretrieve(url, filename=output_file, reporthook=bar.update_to)
+                urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                 break
     except TypeError:
         print(f'Keine Datei gefunden unter {url}')
