@@ -32,7 +32,12 @@ def read_config(file_path):
 
 
 # run the base initialisation
+if not os.path.exists('config.yaml'):
+    input("Konfigurationsdatei 'config.yaml' fehlt.\nWeiter mit Enter...")
+    exit()
 config = read_config( 'config.yaml' )
+
+
 # create folders.
 for folder in list(config['paths'].values()):
     create_folder_structure(folder)
