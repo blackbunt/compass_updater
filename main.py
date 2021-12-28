@@ -29,7 +29,9 @@ def read_config(file_path):
     with open(file_path, "r") as f:
         return yaml.safe_load(f)
 
-
+def clear_scr():
+    clear = lambda: os.system('cls')
+    clear()
 
 # run the base initialisation
 if not os.path.exists('config.yaml'):
@@ -46,8 +48,10 @@ menu_valid = True
 while menu_valid:
     menu_value = menu.show_menu()
     if menu_value[1] == 0: # Starte Compass Update von Menü Auswahl
+        clear_scr()
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
     elif menu_value[1] == 1: # Download Update von bereitgestellter URL
+        clear_scr()
         input_valid = True
         while input_valid:
             url = input(f'Abbrechen mit \'q\'\n\nCompass Update URL eingeben/einfügen:\n\n')
@@ -59,6 +63,7 @@ while menu_valid:
             else:
                 print(f'Keine korrekte Eingabe.')
     elif menu_value[1] == 2: # Starte Lizenstecker Update von Menü Auswahl
+        clear_scr()
         run_update.liz_update(config['paths']['CompassLicenseUpdatePath'])
     elif menu_value[1] == 3: # Beende Programm
         exit()
