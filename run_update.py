@@ -30,7 +30,7 @@ def compass_upd(folder: str):
         files.insert(0, menu)
         title = 'Kein Compass Update heruntergeladen.'
     # create auswahl menu
-    option, index = pick( files, title, indicator='=>', default_index=0 )
+    option, index = pick( files, title, indicator='•', default_index=0 )
     if index == 0:
         return None
     else:
@@ -56,7 +56,7 @@ def liz_update(folder: str):
         files.insert(0, menu)
         title = 'Kein Lizenzstecker Update heruntergeladen.'
     # create auswahl menu
-    option, index = pick(files, title, indicator='=>', default_index=0)
+    option, index = pick(files, title, indicator='•', default_index=0)
     if index == 0:
         return None
     else:
