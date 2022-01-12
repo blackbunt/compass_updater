@@ -5,7 +5,7 @@
 import os
 import yaml
 import errno
-import subprocess
+import sys
 import download
 import menu
 import run_update
@@ -36,7 +36,7 @@ def clear_scr():
 # run the base initialisation
 if not os.path.exists('config.yaml'):
     input("Konfigurationsdatei 'config.yaml' fehlt.\nWeiter mit Enter...")
-    exit()
+    sys.exit()
 config = read_config( 'config.yaml' )
 
 
@@ -66,5 +66,5 @@ while menu_valid:
         clear_scr()
         run_update.liz_update(config['paths']['CompassLicenseUpdatePath'])
     elif menu_value[1] == 3: # Beende Programm
-        exit()
+        sys.exit()
 
