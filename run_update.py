@@ -45,7 +45,7 @@ def liz_update(folder: str):
     for file in glob.glob("*.exe"):
         liste.append(file)
         # liste.append(file.split(".")[-2].replace("_", "."))
-
+    # wenn dateien vorhanden, sortiere sie absteigend wie ein mensch es tun würde
     if len(liste) != 0:
         files = natsort.humansorted(liste, reverse=True)
         filename = files[0]
@@ -61,6 +61,7 @@ def liz_update(folder: str):
         return None
     else:
         subprocess.call(os.path.join(folder, option))
+
 
 if __name__ == '__main__':
     config = read_config( 'config.yaml' )
