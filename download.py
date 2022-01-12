@@ -4,6 +4,12 @@ import cgi
 import errno
 from tqdm import tqdm
 import re
+import menu
+
+
+def clear_scr():
+    clear = lambda: os.system('cls')
+    clear()
 
 
 class DownloadProgressBar(tqdm):
@@ -22,10 +28,12 @@ def create_folder_structure(dirname, rootdir):
         if e.errno != errno.EEXIST:
             print(f'Could not create {dirname} in {rootdir}.')
             raise
-def url_verify(url: str):
+
+
+def url_verify(url_2_check: str):
     '''
     funktion checkt ob der bereitgestellt string eine url ist (nicht ob diese tatsächlich online ist!
-    :param url: input url
+    :param url_2_check: input url
     :return: bool if valid -> True
     '''
     regex = re.compile(
@@ -35,10 +43,11 @@ def url_verify(url: str):
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
         r'(?::\d+)?'  # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE )
-    if re.match(regex, url) is not None:
+    if re.match(regex, url_2_check) is not None:
         return True
     else:
         return False
+
 
 def download_update(url: str, output_path_compass: str, output_path_license: str):
     '''
@@ -67,7 +76,6 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
             print('Konnte Update Datei nicht zuordnen.')
             return
 
-
         output_file = os.path.isfile( os.path.join( output_path, filename ) ) # checkt ob datei schon heruntergeladen wurde oder das noch getan werden muss
         input_valid = True
 
@@ -75,19 +83,26 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
             download_path = os.path.join(output_path, filename) # path where update file is stored
             # wenn datei exestiert
             if output_file:
-                print('Datei exestiert schon!\n')
-                input_raw = input('Erneut herunterladen? j/n ')
-                if input_raw == 'j':
-                    bar = DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
+                # zeige auswahl menu an
+                choice = menu.menu_yes_no(f'Die Datei: {filename} existiert schon.\nErneut herunterladen?')
+                # if yes
+                if choice[1] == 0:
+                    clear_scr()
+                    print('\n\n') # für die optik
+                    # lädt datei runter
+                    bar = DownloadProgressBar(unit='B', unit_scale=True, colour='red', miniters=1, desc=f'Downloading Update {filename_formatted}')
                     urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                     break
-                if input_raw == 'n':
+                # if no
+                elif choice[1] == 1:
                     print('Abbruch.')
                     break
                 else:
-                    print(f'{input_raw} ist keine korrekte Eingabe!')
-                    pass
+                    raise RuntimeError
             else: # wenn datei noch nicht exestiert
+                clear_scr()
+                print('\n\n')
+                # lädt datei runter
                 bar = DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
                 urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                 break
@@ -95,6 +110,7 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
         print(f'Keine Datei gefunden unter {url}')
     except ConnectionError:
         print(f'Verbindung wurde unterbrochen.')
+
 
 if __name__ == '__main__':
     # Lizenstecker Update
