@@ -34,6 +34,7 @@ def compass_upd(folder: str):
     if index == 0:
         return None
     else:
+        print(f'\n\n{option} wird gestartet. Dies kann einen Augenblick dauern.')
         subprocess.call( os.path.join( folder, option ) )
 
 
@@ -60,6 +61,7 @@ def liz_update(folder: str):
     if index == 0:
         return None
     else:
+        print(f'\n\n{option} wird gestartet. Dies kann einen Augenblick dauern.')
         subprocess.call(os.path.join(folder, option))
 
 
