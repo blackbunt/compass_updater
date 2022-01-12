@@ -90,7 +90,7 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
                     clear_scr()
                     print('\n\n') # für die optik
                     # lädt datei runter
-                    bar = DownloadProgressBar(unit='B', unit_scale=True, colour='red', miniters=1, desc=f'Downloading Update {filename_formatted}')
+                    bar = DownloadProgressBar(unit='B', unit_scale=True, colour='green', ascii=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
                     urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                     break
                 # if no
@@ -103,7 +103,7 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
                 clear_scr()
                 print('\n\n')
                 # lädt datei runter
-                bar = DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
+                bar = DownloadProgressBar(unit='B', unit_scale=True, colour='green', ascii=True, miniters=1, desc=f'Downloading Update {filename_formatted}')
                 urllib.request.urlretrieve(url, filename=download_path, reporthook=bar.update_to)
                 break
     except TypeError:
