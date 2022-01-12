@@ -47,7 +47,8 @@ for folder in list(config['paths'].values()):
 # show menu
 menu_valid = True
 while menu_valid:
-    menu_value = menu.show_menu()
+    clear_scr()
+    menu_value = menu.show_main_menu()
     if menu_value[1] == 0:  # Starte Compass Update von Menü Auswahl
         clear_scr()
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
