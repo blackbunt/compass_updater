@@ -2,9 +2,12 @@ import urllib.request
 import os
 import cgi
 import errno
+
+import keyboard
 from tqdm import tqdm
 import re
 import menu
+from keyboard import wait
 
 
 def clear_scr():
@@ -62,6 +65,9 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
     try:
         response = urllib.request.urlopen(url)
         urlcontent = response.info()['Content-Disposition']
+        if urlcontent is None:
+            print('Es ist ein Fehler aufgetreten.\nDatei kann nicht vom Server heruntergeladen werden.\nWeiter mit Enter...')
+            keyboard.wait('Enter')
         value, params = cgi.parse_header(urlcontent)
         filename = params["filename"]
         filename_formatted = filename.split(".")[-2].replace("_", ".")  # filename gecleaned für lesbarkeit des users
@@ -73,7 +79,8 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
             print(f'Compass Update {filename_formatted} gefunden.')
             output_path = output_path_compass
         else:
-            print('Konnte Update Datei nicht zuordnen.')
+            print('Konnte Update Datei nicht zuordnen. Weiter mit Enter.')
+            keyboard.wait('Enter')
             return
 
         output_file = os.path.isfile( os.path.join( output_path, filename ) ) # checkt ob datei schon heruntergeladen wurde oder das noch getan werden muss
@@ -114,9 +121,11 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
 
 if __name__ == '__main__':
     # Lizenstecker Update
-    url = 'https://filestation.compass-software.de/FileManagement/LicenceDownload?LicenceFileName=USB20033177C_211103_1041.exe'
+    # url = 'https://filestation.compass-software.de/FileManagement/LicenceDownload?LicenceFileName=USB20033177C_211103_1041.exe'
+    # fehlerhafte url
+    url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=56018ed4-8e35-4a88-b4e1-f42f4ca8287a'
     # reguläres Update
-    #url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
+    # url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
     create_folder_structure('Updates', os.getcwd())
     create_folder_structure('Compass', os.path.join(os.getcwd(), 'Updates'))
     create_folder_structure('Lizenzstecker', os.path.join(os.getcwd(), 'Updates'))
