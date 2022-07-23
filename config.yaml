@@ -2,3 +2,4 @@
 paths:
   CompassUpdatePath: /Users/bernie/PycharmProjects/compass_updater/Updates/Compass/
   CompassLicenseUpdatePath: /Users/bernie/PycharmProjects/compass_updater/Updates/Lizenzstecker/
+  CompassPatchUpdatePath: /Users/bernie/PycharmProjects/compass_updater/Updates/Patch/

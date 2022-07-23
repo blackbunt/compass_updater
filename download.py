@@ -52,7 +52,7 @@ def url_verify(url_2_check: str):
         return False
 
 
-def download_update(url: str, output_path_compass: str, output_path_license: str):
+def download_update(url: str, output_path_compass: str, output_path_license: str, output_path_patch: str):
     '''
     Downloads Update File from given URL and decides depending of the received filename in which folder the File is saved:
     regular Compass Update Files goes into the output_path_compass folder
@@ -71,10 +71,14 @@ def download_update(url: str, output_path_compass: str, output_path_license: str
         value, params = cgi.parse_header(urlcontent)
         filename = params["filename"]
         filename_formatted = filename.split(".")[-2].replace("_", ".")  # filename gecleaned für lesbarkeit des users
-        # check um was es sich handelt (comp update oder liz update)
+        # check um was es sich handelt (comp update oder liz update oder n patch)
         if filename.startswith('USB') & filename.endswith('.exe'):
             print(f'Lizenzstecker Update {filename_formatted} gefunden.')
             output_path = output_path_license
+        elif filename.startswith('patches') & filename.endswith('.exe'):
+            filename_formatted = filename # weils so schöner ist.
+            print(f'Patch File {filename_formatted} gefunden.')
+            output_path = output_path_patch
         elif filename[0].isdigit() & filename.endswith('.exe'):
             print(f'Compass Update {filename_formatted} gefunden.')
             output_path = output_path_compass
@@ -123,13 +127,17 @@ if __name__ == '__main__':
     # Lizenstecker Update
     # url = 'https://filestation.compass-software.de/FileManagement/LicenceDownload?LicenceFileName=USB20033177C_211103_1041.exe'
     # fehlerhafte url
-    url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=56018ed4-8e35-4a88-b4e1-f42f4ca8287a'
+    #url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=56018ed4-8e35-4a88-b4e1-f42f4ca8287a'
     # reguläres Update
     # url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
+    # patch url
+    url = 'https://filestation.compass-software.de/FileManagement/PatchDownload?PatchFileName=patches_10.12.10.x.exe'
     create_folder_structure('Updates', os.getcwd())
     create_folder_structure('Compass', os.path.join(os.getcwd(), 'Updates'))
     create_folder_structure('Lizenzstecker', os.path.join(os.getcwd(), 'Updates'))
+    create_folder_structure('Patch', os.path.join(os.getcwd(), 'Updates'))
     download_path_compass = os.path.join(os.getcwd(), 'Updates/Compass/')
     download_path_license = os.path.join(os.getcwd(), 'Updates/Lizenzstecker/')
+    download_path_patch = os.path.join(os.getcwd(), 'Updates/Patch/')
     if url_verify(url):
-        download_update(url, download_path_compass, download_path_license)
+        download_update(url, download_path_compass, download_path_license, download_path_patch)

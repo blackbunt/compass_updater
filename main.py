@@ -52,6 +52,7 @@ while menu_valid:
     if menu_value[1] == 0:  # Starte Compass Update von Menü Auswahl
         clear_scr()
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
+
     elif menu_value[1] == 1:  # Download Update von bereitgestellter URL
         clear_scr()
         input_valid = True
@@ -59,14 +60,19 @@ while menu_valid:
             url = input(f'Abbrechen mit \'q\'\n\nCompass Update URL eingeben/einfügen:\n\n')
             if download.url_verify(url):
                 download.download_update(url, config['paths']['CompassUpdatePath'],
-                                         config['paths']['CompassLicenseUpdatePath'])
+                                         config['paths']['CompassLicenseUpdatePath'],
+                                         config['paths']['CompassPatchUpdatePath'])
                 break
             elif url == 'q':
                 break
             else:
                 print(f'Keine korrekte Eingabe.')
+
     elif menu_value[1] == 2:  # Starte Lizenstecker Update von Menü Auswahl
         clear_scr()
+        run_update.patch_update(config['paths']['CompassPatchUpdatePath'])
+    elif menu_value[1] == 3:  # Starte Lizenstecker Update von Menü Auswahl
+        clear_scr()
         run_update.liz_update(config['paths']['CompassLicenseUpdatePath'])
-    elif menu_value[1] == 3:  # Beende Programm
+    elif menu_value[1] == 4:  # Beende Programm
         sys.exit()
