@@ -1,0 +1,11 @@
+future~=0.18.2
+pip~=22.2
+wheel==0.37.1
+requests==2.28.1
+colorama~=0.4.4
+setuptools==63.2.0
+altgraph~=0.17.2
+pefile==2022.5.30
+pyinstaller==5.2
+packaging~=21.3
+pyparsing~=3.0.6
