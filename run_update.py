@@ -7,17 +7,17 @@ import subprocess
 
 
 def read_config(file_path):
-    with open( file_path, "r" ) as f:
-        return yaml.safe_load( f )
+    with open(file_path, "r") as f:
+        return yaml.safe_load(f)
 
 
 def compass_upd(folder: str):
     liste = []
     files = []
     menu = 'Zurück zum Hauptmenü'
-    os.chdir( folder )
-    for file in glob.glob( "*.exe" ):
-        liste.append( file )
+    os.chdir(folder)
+    for file in glob.glob("*.exe"):
+        liste.append(file)
         # liste.append(file.split(".")[-2].replace("_", "."))
 
     if len(liste) != 0:
@@ -30,12 +30,12 @@ def compass_upd(folder: str):
         files.insert(0, menu)
         title = 'Kein Compass Update heruntergeladen.'
     # create auswahl menu
-    option, index = pick( files, title, indicator='•', default_index=0 )
+    option, index = pick(files, title, indicator='•', default_index=0)
     if index == 0:
         return None
     else:
         print(f'\n\n{option} wird gestartet. Dies kann einen Augenblick dauern.')
-        subprocess.call( os.path.join( folder, option ) )
+        subprocess.call(os.path.join(folder, option), shell=True)
 
 
 def liz_update(folder: str):
@@ -62,7 +62,8 @@ def liz_update(folder: str):
         return None
     else:
         print(f'\n\n{option} wird gestartet. Dies kann einen Augenblick dauern.')
-        subprocess.call(os.path.join(folder, option))
+        subprocess.call(os.path.join(folder, option), shell=True)
+
 
 def patch_update(folder: str):
     liste = []
@@ -76,8 +77,8 @@ def patch_update(folder: str):
     if len(liste) != 0:
         files = natsort.humansorted(liste, reverse=True)
         filename = files[0]
-        #filename_bella = filename.split(".")[-2].replace("_", ".")
-        filename_bella = filename # passt so, weil patches anders benannt sind
+        # filename_bella = filename.split(".")[-2].replace("_", ".")
+        filename_bella = filename  # passt so, weil patches anders benannt sind
         files.insert(0, menu)
         title = f'Wähle Patch File aus. Neuster Patch: {filename_bella}'
     else:
@@ -89,16 +90,17 @@ def patch_update(folder: str):
         return None
     else:
         print(f'\n\n{option} wird gestartet. Dies kann einen Augenblick dauern.')
-        subprocess.call(os.path.join(folder, option))
+        # admin rechte mit shell=True
+        subprocess.call(os.path.join(folder, option), shell=True)
 
 
 if __name__ == '__main__':
-    config = read_config( 'config.yaml' )
+    config = read_config('config.yaml')
     comp_path = config['paths']['CompassUpdatePath']
     liz_path = config['paths']['CompassLicenseUpdatePath']
     patch_path = config['paths']['CompassPatchUpdatePath']
 
-    compass_upd( comp_path )
+    patch_update(patch_path)
 
     title = 'Compass Update Helper: '
     options = ['Starte Update', 'Update Download', 'Beenden']
