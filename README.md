@@ -23,3 +23,16 @@ The Programm should be easy2use, with centralized storage for downloaded update 
 - The Programm recognizes through the url which type of Update it is and stores it then in the right folder.
 - Back in the Main Menu select the corresponding Installiere... menu item and choose your Update. (the latest one is always the first)
 - Enjoy easy updating lots of Machines :)
+
+## Disclaimer
+
+The information and code provided in this repository are for educational and informational purposes only. While every effort has been made to ensure the accuracy and reliability of the information and code presented, the author makes no warranties, express or implied, regarding the completeness, accuracy, or reliability of the content.
+
+The author disclaims any liability, loss, or risk incurred as a consequence of using or relying on the information and code provided in this repository. The examples and code snippets provided are not intended to be used in production environments without proper review, testing, and customization.
+
+Users are solely responsible for any actions they take based on the information and code provided in this repository. The author shall not be liable for any damages, direct or indirect, including but not limited to any lost profits, lost savings, or any other incidental, consequential, or special damages arising out of the use or misuse of the information and code provided.
+
+It is recommended to review and test the code thoroughly in your own development and production environments before using it in any critical or production systems.
+
+Use at your own risk.
+
