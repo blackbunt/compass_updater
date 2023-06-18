@@ -1,4 +1,3 @@
-# compass_updater
 **Compass Software Update Tool**
 
 Manage and Download Updates/Patches for [Compass-Software](https://www.compass-software.de/)
