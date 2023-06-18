@@ -167,8 +167,8 @@ def print_tutorial(new_version: str):
     :return:
     '''
     # clear the console on windows
-    os.system('cls')
-
+    clear = lambda: os.system('cls')
+    clear()
     print('Anleitung um Programm zu aktualisieren:')
     print('')
     print('1. Schließe das Programm')
@@ -188,10 +188,10 @@ def run_ota_module(current_version):
         # when the user wants to download the latest release version, download it
         if download:
             download_update(url, newer_version)
-            if print_tutorial(newer_version):
-                open_explorer()
-                # programm beenden
-                sys.exit()
+            print_tutorial(newer_version)
+            open_explorer()
+            # programm beenden
+            sys.exit()
         else:
             pass
     else:

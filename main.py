@@ -10,11 +10,10 @@ import download
 import menu
 import run_update
 import ota
-
+import subprocess
 
 global version
-version = '2023-06-18'
-
+version = '2023-06-19'
 
 def create_default_config(file_path):
     config_data = {
@@ -79,14 +78,14 @@ ota.run_ota_module(version)
 menu_valid = True
 while menu_valid:
     clear_scr()
-    menu_value = menu.show_main_menu()
+    menu_value = menu.show_main_menu(version)
     if menu_value[1] == 0:  # Starte Compass Update von Menü Auswahl
         clear_scr()
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
 
     elif menu_value[1] == 4:  # Öffne Download Ordner
         clear_scr()
-        os.startfile(config['paths'])
+        subprocess.Popen(f'explorer {config["paths"]["Download-Folder"]}')
 
     elif menu_value[1] == 3:  # Download Update von bereitgestellter URL
         clear_scr()
