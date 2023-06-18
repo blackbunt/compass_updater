@@ -1,5 +1,0 @@
-# Config File for Compass Update Utility
-paths:
-  CompassUpdatePath: /CompassUpdateHelper/Compass/
-  CompassLicenseUpdatePath: /CompassUpdateHelper/Lizenzstecker/
-  CompassPatchUpdatePath: /CompassUpdateHelper/Patch/

@@ -131,7 +131,11 @@ if __name__ == '__main__':
     # reguläres Update
     # url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=b4082b52-778f-4be3-8710-6248f3b44f78'
     # patch url
-    url = 'https://filestation.compass-software.de/FileManagement/PatchDownload?PatchFileName=patches_10.12.10.x.exe'
+    # url = 'https://filestation.compass-software.de/FileManagement/PatchDownload?PatchFileName=patches_10.12.10.x.exe'
+    # update 18.06.2023
+    # url = 'https://filestation.compass-software.de/FileManagement/DownloadLink?guid=479066ec-c115-482e-bf65-1a5106e6b318'
+    # passender patch
+    url= 'https://filestation.compass-software.de/FileManagement/PatchDownload?PatchFileName=patches_10.12.20.x.exe'
     create_folder_structure('Updates', os.getcwd())
     create_folder_structure('Compass', os.path.join(os.getcwd(), 'Updates'))
     create_folder_structure('Lizenzstecker', os.path.join(os.getcwd(), 'Updates'))

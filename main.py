@@ -9,11 +9,31 @@ import sys
 import download
 import menu
 import run_update
+import ota
 
 
-def read_config(file_path):
-    with open(file_path, "r") as f:
-        return yaml.safe_load(f)
+global version
+version = '2023-06-18'
+
+
+def create_default_config(file_path):
+    config_data = {
+        # create default config file with comment
+
+        '# Config File for Compass Update Utility': '',
+        'Version:': version,
+        'paths': {
+            'CompassUpdatePath': '/CompassUpdateHelper/Update/',
+            'CompassLicenseUpdatePath': '/CompassUpdateHelper/Lizenzstecker/',
+            'CompassPatchUpdatePath': '/CompassUpdateHelper/Patch/',
+            'Download-Folder': '/CompassUpdateHelper/',
+        }
+
+        # Add other configuration options as needed
+    }
+
+    with open(file_path, 'w') as f:
+        yaml.safe_dump(config_data, f)
 
 
 def create_folder_structure(dirname):
@@ -38,12 +58,23 @@ def clear_scr():
 # run the base initialisation
 if not os.path.exists('config.yaml'):
     input("Konfigurationsdatei 'config.yaml' fehlt.\nWeiter mit Enter...")
-    sys.exit()
+    # user fragen ob er eine config erstellen will
+    create_config = input('Soll eine neue Konfigurationsdatei erstellt werden? (y/n)\n')
+    if create_config == 'y':
+        create_default_config('config.yaml')
+    else:
+        sys.exit()
+
 config = read_config('config.yaml')
 
 # create folders.
 for folder in list(config['paths'].values()):
     create_folder_structure(folder)
+
+# check for updates
+ota.run_ota_module(version)
+
+
 # show menu
 menu_valid = True
 while menu_valid:
@@ -53,7 +84,11 @@ while menu_valid:
         clear_scr()
         run_update.compass_upd(config['paths']['CompassUpdatePath'])
 
-    elif menu_value[1] == 1:  # Download Update von bereitgestellter URL
+    elif menu_value[1] == 4:  # Öffne Download Ordner
+        clear_scr()
+        os.startfile(config['paths'])
+
+    elif menu_value[1] == 3:  # Download Update von bereitgestellter URL
         clear_scr()
         input_valid = True
         while input_valid:
@@ -71,8 +106,10 @@ while menu_valid:
     elif menu_value[1] == 2:  # Starte Lizenstecker Update von Menü Auswahl
         clear_scr()
         run_update.patch_update(config['paths']['CompassPatchUpdatePath'])
-    elif menu_value[1] == 3:  # Starte Lizenstecker Update von Menü Auswahl
+
+    elif menu_value[1] == 1:  # Starte Patch von Menü Auswahl
         clear_scr()
         run_update.liz_update(config['paths']['CompassLicenseUpdatePath'])
-    elif menu_value[1] == 4:  # Beende Programm
+
+    elif menu_value[1] == 5:  # Beende Programm
         sys.exit()
